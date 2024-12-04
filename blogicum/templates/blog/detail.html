@@ -8,5 +8,8 @@
       <small>От автора @{{ post.author.username }} в категории {% include "includes/category_link.html" %}</small></p>
     <h3>{{ post.title }}</h3>
     <p>{{ post.text|linebreaksbr }}</p>
+    {% if post.image %}
+      <img src="{{ post.image.url }}" alt="{{ post.title }}" width="800" height="600">
+    {% endif %}
   </article> 
 {% endblock %}

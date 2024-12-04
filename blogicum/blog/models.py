@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.core.files.images import get_image_dimensions
+from PIL import Image as PILImage
+from django.core.exceptions import ValidationError
 
 User = get_user_model()
 
@@ -7,7 +10,7 @@ class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Создание')
     class Meta:
         abstract = True
-    
+        
 class Category (BaseModel):
     title = models.CharField(max_length=256, verbose_name='Заголовок')
     description = models.TextField(verbose_name='Описание')
@@ -38,9 +41,15 @@ class Post (BaseModel):
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null = True, verbose_name='Местоположение')
     category = models.ForeignKey("Category", on_delete=models.SET_NULL, null = True, verbose_name='Категория')
     is_published = models.BooleanField(default=True, verbose_name='Опубликовано', help_text="Введите своё имя")
+    image = models.ImageField(upload_to='images', null = True, blank=True)
     class Meta:
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
     
     def __str__(self):
         return self.title
+    def delete_image(self):
+        if self.image:
+            self.image.delete(save=False)
+            self.image = None
+            self.save()

@@ -1,0 +1,13 @@
+{% extends "admin/change_form.html" %}
+
+{% block after_field_sets %}
+    <h3>Изображение</h3>
+    {% if original.image %}
+        <img src="{{ original.image.url }}" style="max-width: 300px;"><br>
+        <label>
+            <input type="checkbox" name="delete_image"> Удалить изображение
+        </label>
+    {% else %}
+        <p>Нет изображения</p>
+    {% endif %}
+{% endblock %}
