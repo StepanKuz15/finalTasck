@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
 from django.utils import timezone
-from django.db.models import Q
+from django.core.paginator import Paginator
 from blog.models import Post, Category
+
+now = timezone.now()
+paginator_pages = 5
 
 def index(request):
     template_name = 'blog/index.html'
@@ -10,8 +13,10 @@ def index(request):
         pub_date__lte=now,
         is_published=True,
         category__is_published=True
-    ).order_by('-pub_date')[:5]
-    context = {'postsbd': postsbd}
+    ).order_by('-pub_date')
+    paginator = Paginator(postsbd, paginator_pages)
+    page = paginator.get_page(request.GET.get('page'))
+    context = {'page': page}
     return render(request, template_name, context)
 
 def post_detail(request, id):
@@ -42,5 +47,3 @@ def category_posts(request, category_slug):
         'category': category,  
     }
     return render(request, template_name, context)
-
-now = timezone.now()

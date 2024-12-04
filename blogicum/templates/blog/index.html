@@ -4,9 +4,10 @@
 {% endblock %}
 {% block content %}
   <h1 class="mb-5">Лента записей</h1>
-  {% for post in postsbd %}
+  {% for post in page %}
     <article class="mb-5">  
       {% include "includes/post_card.html" %}
-    </article>   
+    </article>
   {% endfor %}
+  {% include "includes/paginator.html" %}
 {% endblock %}
