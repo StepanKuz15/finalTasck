@@ -8,6 +8,10 @@
       </small>
     </h6>
     <p class="card-text">{{ post.text|truncatewords:10 }}</p>
+    {% if post.image %}
+      <img src="{{ post.image.url }}" alt="Изображение поста" style="width: 100px; height: 100px; object-fit: cover;">
+      <br>
+    {% endif %}
     <a href="{% url 'blog:post_detail' post.id %}" class="card-link">Читать полный текст</a>
   </div>
 </div>

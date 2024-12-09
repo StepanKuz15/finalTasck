@@ -23,6 +23,11 @@
               Наши правила
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link {% if view_name == 'blog:add_post' %} active {% endif %}" href="{% url 'blog:add_post' %}">
+              Добавить пост
+            </a>
+          </li>
         </ul>
       {% endwith %}      
     </div>

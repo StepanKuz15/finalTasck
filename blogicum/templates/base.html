@@ -17,7 +17,16 @@
     {% include "includes/header.html" %}
     <main>
       <div class="container py-5">
-      {% block content %}{% endblock %}
+        <div class="row">
+          <div class="col-md-12">
+            {% if user.is_authenticated %}
+              <p class="float-right">Вы авторизованы как {{ user.username }} | <a href="{% url 'blog:logout' %}">Выйти</a></p>
+            {% else %}
+              <p class="float-right"><a href="{% url 'blog:login' %}">Войти</a> | <a href="{% url 'blog:registration' %}">Зарегистрироваться</a></p>
+            {% endif %}
+          </div>
+        </div>
+        {% block content %}{% endblock %}
       </div>
     </main>
     {% include "includes/footer.html" %}   

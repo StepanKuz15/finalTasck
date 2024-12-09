@@ -12,4 +12,11 @@
       <img src="{{ post.image.url }}" alt="{{ post.title }}" width="800" height="600">
     {% endif %}
   </article> 
+  {% if user.is_authenticated and user.is_superuser %}
+  <a href="{% url 'blog:post_edit' post.id %}" class="btn btn-primary">Редактировать пост</a>
+  <form method="post" action="{% url 'blog:post_delete' post.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Удалить пост</button>
+  </form>
+  {% endif %}
 {% endblock %}
